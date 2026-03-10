@@ -9,12 +9,22 @@ module FiberUnits
 
     def +(other)
       ensure_same_dimension!(other)
-      self.class.new(value + other.value, unit)
+
+      base = to_base + other.to_base
+      new_value = base / self.class::FACTORS[unit]
+      new_value = new_value.round(12)
+
+      self.class.new(new_value, unit)
     end
 
     def -(other)
       ensure_same_dimension!(other)
-      self.class.new(value - other.value, unit)
+
+      base = to_base - other.to_base
+      new_value = base / self.class::FACTORS[unit]
+      new_value = new_value.round(12)
+
+      self.class.new(new_value, unit)
     end
 
     def *(other)
@@ -27,6 +37,29 @@ module FiberUnits
       else
         self.class.new(value / other, unit)
       end
+    end
+
+    def to(target_unit)
+      raise FiberUnits::InvalidUnitError unless self.class::FACTORS.key?(target_unit)
+
+      base = to_base
+      self.class.new(base / self.class::FACTORS[target_unit], target_unit)
+    end
+
+    def to_base
+      raise NotImplementedError unless self.class.const_defined?(:FACTORS)
+
+      value * self.class::FACTORS[unit]
+    end
+
+    def self.from_base(base_value)
+      factors = self::FACTORS
+
+      base_unit = factors.key(1.0)
+
+      raise FiberUnits::InvalidUnitError unless base_unit
+
+      new(base_value / factors[base_unit], base_unit)
     end
 
     private

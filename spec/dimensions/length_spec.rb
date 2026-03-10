@@ -47,4 +47,24 @@ RSpec.describe FiberUnits::Length do
       expect(length.to_base).to eq(2000)
     end
   end
+
+  describe ".from_base" do
+    it "creates a measurement from a base value" do
+      result = FiberUnits::Length.from_base(25.4)
+
+      expect(result).to be_a(FiberUnits::Length)
+    end
+
+    it "uses the base unit defined in FACTORS" do
+      result = FiberUnits::Length.from_base(25.4)
+
+      expect(result.unit).to eq(:millimeters)
+    end
+
+    it "returns the correct value in the base unit" do
+      result = FiberUnits::Length.from_base(25.4)
+
+      expect(result.value).to eq(25.4)
+    end
+  end
 end

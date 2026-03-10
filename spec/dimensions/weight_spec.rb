@@ -20,4 +20,12 @@ RSpec.describe FiberUnits::Weight do
       expect(result.value).to eq(150)
     end
   end
+
+  it "works for weight measurements" do
+    result = FiberUnits::Weight.from_base(100)
+
+    expect(result).to be_a(FiberUnits::Weight)
+    expect(result.unit).to eq(:grams)
+    expect(result.value).to eq(100)
+  end
 end

@@ -1,14 +1,14 @@
 module FiberUnits
   class Length < Measurement
-    FACTORS = FiberUnits::Conversions::LengthConversion::FACTORS
+    BASE_UNIT = :millimeters
 
-    def to(unit)
-      base = to_base
-      self.class.new(base / FACTORS[unit], unit)
-    end
-
-    def to_base
-      value * FACTORS[unit]
-    end
+    FACTORS = {
+      millimeters: 1,
+      centimeters: 10,
+      meters: 1000,
+      inches: 25.4,
+      feet: 304.8,
+      yards: 914.4
+    }
   end
 end

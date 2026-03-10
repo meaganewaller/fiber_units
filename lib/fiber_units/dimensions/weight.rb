@@ -1,14 +1,10 @@
 module FiberUnits
   class Weight < Measurement
-    FACTORS = FiberUnits::Conversions::WeightConversion::FACTORS
-
-    def to(unit)
-      base = to_base
-      self.class.new(base / FACTORS[unit], unit)
-    end
-
-    def to_base
-      value * FACTORS[unit]
-    end
+    FACTORS = {
+      grams: 1.0,
+      kilograms: 1000.0,
+      ounces: 28.3495,
+      pounds: 453.592
+    }.freeze
   end
 end
