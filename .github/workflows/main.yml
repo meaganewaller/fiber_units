@@ -7,6 +7,10 @@ on:
 
   pull_request:
 
+  release:
+    types:
+      - published
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,3 +31,32 @@ jobs:
           bundler-cache: true
       - name: Run the default task
         run: bundle exec rake
+
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Verify changelog entry
+        run: |
+          if ! grep -q "## \[${{ steps.version.outputs.VERSION }}\]" CHANGELOG.md; then
+            echo "❌ Version ${{ steps.version.outputs.VERSION }} not found in CHANGELOG.md"
+            exit 1
+          fi
+          echo "✅ Changelog entry verified for ${{ steps.version.outputs.VERSION }}"
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0.1'
+          bundler-cache: true
+      - name: Build gem
+        run: gem build fiber_units.gemspec
+      - name: Publish to RubyGems
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        run: gem push *.gem
