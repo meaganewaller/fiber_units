@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.2.0] - 2026-03-09
+
 ### Added
 - Comparison operators (`<`, `>`, `<=`, `>=`, `==`, `!=`) for `Measurement` class
 - Support for cross-unit comparisons (e.g., `4.inches > 10.centimeters`)
