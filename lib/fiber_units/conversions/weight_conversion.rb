@@ -1,0 +1,20 @@
+module FiberUnits
+  module Conversions
+    module WeightConversion
+      FACTORS = {
+        grams: 1.0,
+        kilograms: 1000.0,
+        ounces: 28.3495,
+        pounds: 453.592
+      }.freeze
+
+      def self.convert(value, from, to)
+        raise FiberUnits::InvalidUnitError unless FACTORS.key?(from)
+        raise FiberUnits::InvalidUnitError unless FACTORS.key?(to)
+
+        base = value * FACTORS[from]
+        base / FACTORS[to]
+      end
+    end
+  end
+end
