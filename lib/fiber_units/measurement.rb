@@ -1,5 +1,7 @@
 module FiberUnits
   class Measurement
+    include Comparable
+
     attr_reader :value, :unit
 
     def initialize(value, unit)
@@ -37,6 +39,22 @@ module FiberUnits
       else
         self.class.new(value / other, unit)
       end
+    end
+
+    def <=>(other)
+      ensure_same_dimension!(other)
+      to_base <=> other.to_base
+    end
+
+    def ==(other)
+      return false unless other.is_a?(Measurement)
+      return false unless other.is_a?(self.class)
+
+      (to_base - other.to_base).abs < 1e-10
+    end
+
+    def !=(other)
+      !(self == other)
     end
 
     def to(target_unit)
