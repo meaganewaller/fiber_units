@@ -132,7 +132,9 @@ RSpec.describe FiberUnits::Measurement do
       end
 
       it "returns false when values are equal" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches > 4.inches).to be false
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "compares across different units of the same dimension" do
@@ -150,7 +152,9 @@ RSpec.describe FiberUnits::Measurement do
       end
 
       it "returns false when values are equal" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches < 4.inches).to be false
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "compares across different units of the same dimension" do
@@ -164,7 +168,9 @@ RSpec.describe FiberUnits::Measurement do
       end
 
       it "returns true when values are equal" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches >= 4.inches).to be true
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "returns false when left side is smaller" do
@@ -182,7 +188,9 @@ RSpec.describe FiberUnits::Measurement do
       end
 
       it "returns true when values are equal" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches <= 4.inches).to be true
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "returns false when left side is greater" do
@@ -196,7 +204,9 @@ RSpec.describe FiberUnits::Measurement do
 
     describe "equality (==)" do
       it "returns true for equal values in the same unit" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches == 4.inches).to be true
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "returns false for different values" do
@@ -215,7 +225,9 @@ RSpec.describe FiberUnits::Measurement do
 
     describe "inequality (!=)" do
       it "returns false for equal values" do
+        # rubocop:disable Lint/BinaryOperatorWithIdenticalOperands
         expect(4.inches != 4.inches).to be false
+        # rubocop:enable Lint/BinaryOperatorWithIdenticalOperands
       end
 
       it "returns true for different values" do
