@@ -3,7 +3,11 @@ env:
   BUNDLE_PATH: vendor/bundle
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
+
 
 jobs:
   lint:
