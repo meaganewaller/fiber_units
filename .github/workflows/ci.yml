@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUNDLE_WITHOUT: ""
-    if: github.repository == 'meaganewaller/fiber_gauge'
+    if: github.repository == 'meaganewaller/fiber_units'
     strategy:
       matrix:
         ruby-version: ['3.4', '4.0']
