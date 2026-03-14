@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.3.0] - 2026-03-14
+
 ### Added
 - Shared `Count` base class for `RowCount` and `StitchCount`
 - Equality and comparison behavior for `StitchCount` and `RowCount`
