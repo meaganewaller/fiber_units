@@ -1,61 +1,35 @@
-name: Release
+name: Release new version of FiberUnits
 
 on:
   push:
     tags:
-      - "v*"
-
-permissions:
-  contents: write
+      - 'v*'
 
 jobs:
-  publish:
+  release:
+    name: Release gem to RubyGems.org
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Verify gem version matches tag
-        run: |
-          GEM_VERSION=$(ruby -e "puts Gem::Specification.load('fiber_units.gemspec').version")
-          if [ "$GEM_VERSION" != "${{ steps.version.outputs.VERSION }}" ]; then
-            echo "❌ Version mismatch: gemspec=$GEM_VERSION tag=${{ steps.version.outputs.VERSION }}"
-            exit 1
-          fi
-          echo "✅ Gem version matches tag"
-
-      - name: Verify changelog entry
-        run: |
-          if ! grep -q "## \[${{ steps.version.outputs.VERSION }}\]" CHANGELOG.md; then
-            echo "❌ Version ${{ steps.version.outputs.VERSION }} not found in CHANGELOG.md"
-            exit 1
-          fi
-          echo "✅ Changelog entry verified for ${{ steps.version.outputs.VERSION }}"
-
-      - name: Setup Ruby
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0.1"
           bundler-cache: true
+          ruby-version: ruby
 
-      - name: Build gem
-        run: gem build fiber_units.gemspec
+      # Release
+      - name: Release gem
+        uses: rubygems/release-gem@v1
 
-      - name: Configure RubyGems credentials
-        run: |
-          mkdir -p ~/.gem
-          echo ":rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
-          chmod 0600 ~/.gem/credentials
-
-      - name: Publish gem
-        run: gem push *.gem
-
-      - name: Create GitHub release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
           generate_release_notes: true

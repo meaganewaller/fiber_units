@@ -1,25 +1,37 @@
 name: CI
-env:
-  BUNDLE_PATH: vendor/bundle
 
 on:
   push:
     branches:
       - main
+    tags-ignore:
+      - 'v*'
   pull_request:
-
+    branches:
+      - 'main'
+  schedule:
+    - cron: '5 12,15,18 * * 1-5'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: ./.github/actions/ruby-setup
-      - run: bundle exec standardrb
-
   test:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: ""
+    if: github.repository == 'meaganewaller/fiber_units'
+    strategy:
+      matrix:
+        ruby-version: ['3.4', '4.0']
+
     steps:
-      - uses: actions/checkout@v5
-      - uses: ./.github/actions/ruby-setup
-      - run: bundle exec rspec
+      - uses: actions/checkout@v6
+      - name: Use Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Run Standard
+        run: bin/standardrb
+
+      - name: Run RSpec
+        run: bin/rspec --format documentation
