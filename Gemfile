@@ -6,7 +6,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem "irb", "~> 1.4.1" if RUBY_VERSION >= "2.6" # byexample needs a specific irb version
+  gem "irb", "~> 1.17.0" if RUBY_VERSION >= "2.6" # byexample needs a specific irb version
   gem "benchmark"
   gem "standard", "~> 1.3"
   gem "rspec", "~> 3.0"
