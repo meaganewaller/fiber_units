@@ -22,7 +22,6 @@ module FiberUnits
   #  gauge = 18.stitches / 4.inches
   #
   module NumericExtensions
-
     # Install all numeric extensions.
     #
     # This method dynamically adds unit methods to Ruby's `Numeric`
