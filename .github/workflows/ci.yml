@@ -13,11 +13,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/ruby-setup
       - run: bundle exec standardrb
 
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/ruby-setup
       - run: bundle exec rspec
