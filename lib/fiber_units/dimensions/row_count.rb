@@ -9,5 +9,9 @@ module FiberUnits
     def +(other)
       RowCount.new(value + other.value)
     end
+
+    def ==(other)
+      other.is_a?(RowCount) && value == other.value
+    end
   end
 end

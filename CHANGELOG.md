@@ -2,6 +2,7 @@
 
 ### Added
 - Equality operator for `StitchCount` class
+- Equality operator for `RowCount` class
 
 ## [0.2.0] - 2026-03-09
 

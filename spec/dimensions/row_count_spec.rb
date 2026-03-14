@@ -10,4 +10,9 @@ RSpec.describe FiberUnits::RowCount do
 
     expect(result.value).to eq(30)
   end
+
+  it "compares row counts for equality" do
+    expect(24.rows).to eq(24.rows)
+    expect(24.rows).not_to eq(30.rows)
+  end
 end
