@@ -1,8 +1,9 @@
 ## [Unreleased]
 
 ### Added
-- Equality operator for `StitchCount` class
-- Equality operator for `RowCount` class
+- Shared `Count` base class for `RowCount` and `StitchCount`
+- Equality and comparison behavior for `StitchCount` and `RowCount`
+- Coverage for shared count behavior through `RowCount` and `StitchCount` specs
 
 ## [0.2.0] - 2026-03-09
 
