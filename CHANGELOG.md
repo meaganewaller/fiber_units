@@ -1,9 +1,9 @@
 ## [Unreleased]
 
-## [0.3.1] - 2026-03-14
-
 ### Changed
 - GitHub Actions now publishes on version tag pushes and creates a matching GitHub release
+
+## [0.3.1] - 2026-03-14
 
 ## [0.3.0] - 2026-03-14
 
