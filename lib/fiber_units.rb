@@ -14,6 +14,11 @@ require_relative "fiber_units/dimensions/row_count"
 
 require_relative "numeric_extensions"
 
+# Typed measurements and counts for fiber arts calculations.
+#
+# The library provides dimension-specific value objects for common craft
+# measurements such as length, weight, stitch counts, and row counts.
+# It also extends `Numeric` with constructors like `4.inches` and
+# `20.stitches` for readable pattern math.
 module FiberUnits
-  # Your code goes here...
 end

@@ -1,7 +1,10 @@
 module FiberUnits
+  # A distance measurement used for lengths in fiber projects.
   class Length < Measurement
+    # Canonical unit used for internal length conversion.
     BASE_UNIT = :millimeters
 
+    # Supported length units mapped to millimeter conversion factors.
     FACTORS = {
       millimeters: 1,
       centimeters: 10,

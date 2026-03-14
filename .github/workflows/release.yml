@@ -1,48 +1,33 @@
-name: Ruby
+name: Release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*"
-
-  pull_request:
 
 permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
-    strategy:
-      matrix:
-        ruby:
-          - '4.0.1'
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Run the default task
-        run: bundle exec rake
-
   publish:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v5
+
       - name: Extract version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Verify gem version matches tag
+        run: |
+          GEM_VERSION=$(ruby -e "puts Gem::Specification.load('fiber_units.gemspec').version")
+          if [ "$GEM_VERSION" != "${{ steps.version.outputs.VERSION }}" ]; then
+            echo "❌ Version mismatch: gemspec=$GEM_VERSION tag=${{ steps.version.outputs.VERSION }}"
+            exit 1
+          fi
+          echo "✅ Gem version matches tag"
+
       - name: Verify changelog entry
         run: |
           if ! grep -q "## \[${{ steps.version.outputs.VERSION }}\]" CHANGELOG.md; then
@@ -50,20 +35,25 @@ jobs:
             exit 1
           fi
           echo "✅ Changelog entry verified for ${{ steps.version.outputs.VERSION }}"
-      - name: Set up Ruby
+
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '4.0.1'
+          ruby-version: "4.0.1"
           bundler-cache: true
+
       - name: Build gem
         run: gem build fiber_units.gemspec
-      - name: Setup gem credentials
+
+      - name: Configure RubyGems credentials
         run: |
           mkdir -p ~/.gem
           echo ":rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
           chmod 0600 ~/.gem/credentials
-      - name: Publish to RubyGems
+
+      - name: Publish gem
         run: gem push *.gem
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:

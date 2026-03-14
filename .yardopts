@@ -1,0 +1,10 @@
+--markup markdown
+--embed-mixins
+--protected
+--no-private
+--title "FiberUnits - Typed measurements for fiber arts"
+--output-dir doc/yard
+--readme README.md
+--charset utf-8
+lib/**/*.rb
+-
