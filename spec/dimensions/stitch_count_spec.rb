@@ -10,4 +10,9 @@ RSpec.describe FiberUnits::StitchCount do
 
     expect(result.value).to eq(30)
   end
+
+  it "compares stitch counts for equality" do
+    expect(20.stitches).to eq(20.stitches)
+    expect(20.stitches).not_to eq(30.stitches)
+  end
 end

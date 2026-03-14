@@ -9,5 +9,9 @@ module FiberUnits
     def +(other)
       StitchCount.new(value + other.value)
     end
+
+    def ==(other)
+      other.is_a?(StitchCount) && value == other.value
+    end
   end
 end
